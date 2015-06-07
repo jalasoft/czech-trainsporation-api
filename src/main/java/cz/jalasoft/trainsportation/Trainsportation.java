@@ -1,17 +1,35 @@
 package cz.jalasoft.trainsportation;
 
-import com.google.common.base.Optional;
+import cz.jalasoft.net.http.HttpClient;
+import cz.jalasoft.trainsportation.exception.MalformedTrainInfoException;
+import cz.jalasoft.trainsportation.exception.TrainNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 /**
  * Created by honzales on 3.5.15.
  */
-public interface Trainsportation {
+public final class Trainsportation {
 
-    Optional<Train> lookupTrain(String number) throws IOException;
+    private static final Logger LOGGER = LoggerFactory.getLogger(Trainsportation.class);
 
-    TrainPosition queryPosition(Train train);
+    private final HttpClient httpClient;
 
-    TrainPosition queryPosition(TrainNumber trainNumber);
+    public Trainsportation(HttpClient httpClient) {
+        this.httpClient = httpClient;
+    }
+
+    public Train lookupTrain(String trainNumber) throws IOException, TrainNotFoundException, MalformedTrainInfoException {
+        return new TrainInfoRequester(httpClient).retrieveTrainInfo(trainNumber);
+    }
+
+    public TrainPosition queryTrainPosition(Train train) {
+        return null;
+    }
+
+    public TrainPosition queryPosition(TrainNumber trainNumber) {
+        return null;
+    }
 }

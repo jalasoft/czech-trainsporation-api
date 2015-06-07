@@ -12,6 +12,6 @@ public class Util {
     public static void main(String[] args) throws Exception {
 
         Trainsportation trainsportation = new CzechTrainsportation(new NettyHttpClient());
-        trainsportation.lookupTrain("146");
+        trainsportation.lookupTrain("1412233");
     }
 }
