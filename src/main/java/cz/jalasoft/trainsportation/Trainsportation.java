@@ -15,21 +15,21 @@ public final class Trainsportation {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Trainsportation.class);
 
-    private final HttpClient httpClient;
+    private final TrainLookup trainLookup;
 
     public Trainsportation(HttpClient httpClient) {
-        this.httpClient = httpClient;
+        this.trainLookup = new TrainLookup(httpClient);
     }
 
-    public Train lookupTrain(String trainNumber) throws IOException, TrainNotFoundException, MalformedTrainInfoException {
-        return new TrainInfoRequester(httpClient).retrieveTrainInfo(trainNumber);
+    public TrainId lookupTrain(String trainNumber) throws IOException, TrainNotFoundException, MalformedTrainInfoException {
+        return trainLookup.lookupTrain(trainNumber);
     }
 
-    public TrainPosition queryTrainPosition(Train train) {
+    public TrainSchedule queryTrainSchedule(TrainId train) {
         return null;
     }
 
-    public TrainPosition queryPosition(TrainNumber trainNumber) {
+    public TrainPosition queryPosition(TrainId trainNumber) {
         return null;
     }
 }
