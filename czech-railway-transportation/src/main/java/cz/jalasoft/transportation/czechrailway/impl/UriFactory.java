@@ -1,4 +1,4 @@
-package cz.jalasoft.trainsportation.impl;
+package cz.jalasoft.transportation.czechrailway.impl;
 
 import cz.jalasoft.util.configuration.Configuration;
 

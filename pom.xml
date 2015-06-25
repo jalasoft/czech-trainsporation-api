@@ -4,32 +4,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cz.jalasoft.trainsportation</groupId>
-    <artifactId>CzechTrainsportation</artifactId>
+    <groupId>cz.jalasoft.transportation</groupId>
+    <artifactId>transportation</artifactId>
+    <packaging>pom</packaging>
     <version>1.0.0</version>
 
+    <modules>
+        <module>czech-railway-transportation</module>
+        <module>transportation-api</module>
+    </modules>
+
     <dependencies>
-        <dependency>
-            <groupId>com.github.jalasoft</groupId>
-            <artifactId>HttpClient</artifactId>
-            <version>1.0.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.jalasoft</groupId>
-            <artifactId>JalasoftUtils</artifactId>
-            <version>1.0.2</version>
-        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.12</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.jalasoft</groupId>
-            <artifactId>NettyHttpClient</artifactId>
-            <version>1.0.2</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 

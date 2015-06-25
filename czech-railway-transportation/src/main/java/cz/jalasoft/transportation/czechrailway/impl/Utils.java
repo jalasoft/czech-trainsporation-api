@@ -1,4 +1,4 @@
-package cz.jalasoft.trainsportation.impl;
+package cz.jalasoft.transportation.czechrailway.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

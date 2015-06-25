@@ -1,4 +1,4 @@
-package cz.jalasoft.trainsportation;
+package cz.jalasoft.transportation.czechrailway.impl;
 
 import cz.jalasoft.net.http.HttpClient;
 import cz.jalasoft.net.http.HttpGetRequest;
@@ -32,7 +32,7 @@ final class TrainLookup {
         this.httpClient = httpClient;
     }
 
-    TrainId lookupTrain(String trainNumber) throws IOException, TrainNotFoundException, MalformedTrainInfoException {
+    Transport lookupTrain(String trainNumber) throws IOException, TrainNotFoundException, MalformedTrainInfoException {
         String foundTrainsPage = searchTrainByNumber(trainNumber);
 
         LOGGER.debug("Found trains page retrieved.");
@@ -44,7 +44,7 @@ final class TrainLookup {
 
         LOGGER.debug("Train info page retrieved.");
 
-        TrainId train = readTrainId(trainInfoPage);
+        Transport train = readTrainId(trainInfoPage);
 
         LOGGER.debug("Train found: {}", train);
 
@@ -106,7 +106,7 @@ final class TrainLookup {
         return String.format(TRAIN_LOOKUP_REQUEST_PAYLOAD_PATTERN, trainNumber, today);
     }
 
-    private TrainId readTrainId(String trainInfoPage) {
+    private Transport readTrainId(String trainInfoPage) {
         return null;
     }
 }
