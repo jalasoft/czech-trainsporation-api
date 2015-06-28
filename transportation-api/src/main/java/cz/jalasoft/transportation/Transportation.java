@@ -1,6 +1,5 @@
 package cz.jalasoft.transportation;
 
-import cz.jalasoft.transportation.aggregate.AggregatingTransportation;
 import cz.jalasoft.transportation.exception.TransportInfoRetrievalException;
 import cz.jalasoft.transportation.exception.TransportRetrievalException;
 
@@ -9,17 +8,13 @@ import java.util.Collection;
 /**
  * Created by Honza Lastovicka on 3.5.15.
  */
-public abstract class Transportation {
+public interface Transportation {
 
-    private static final Transportation INSTANCE = new AggregatingTransportation();
+    Collection<Transport> lookupTransport(String transport) throws TransportRetrievalException;
 
-    public static Transportation get() {
-        return INSTANCE;
-    }
+    Schedule querySchedule(Transport transport) throws TransportInfoRetrievalException;
 
-    public abstract Collection<Transport> lookupTransport(String transport) throws TransportRetrievalException;
+    Position queryPosition(Transport transport) throws TransportInfoRetrievalException;
 
-    public abstract Schedule querySchedule(Transport transport) throws TransportInfoRetrievalException;
-
-    public abstract Position queryPosition(Transport transport) throws TransportInfoRetrievalException;
+    Carrier carrier();
 }

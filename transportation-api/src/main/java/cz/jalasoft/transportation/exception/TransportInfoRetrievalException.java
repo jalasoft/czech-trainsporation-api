@@ -5,12 +5,16 @@ import cz.jalasoft.transportation.Transport;
 /**
  * Created by honzales on 3.5.15.
  */
-public final class TransportInfoRetrievalException extends Exception {
+public abstract class TransportInfoRetrievalException extends Exception {
 
     private final Transport transport;
 
-    public TransportInfoRetrievalException(Transport transport) {
+    public TransportInfoRetrievalException(Transport transport, String cause) {
+        super(cause);
         this.transport = transport;
     }
 
+    public Transport getTransport() {
+        return transport;
+    }
 }

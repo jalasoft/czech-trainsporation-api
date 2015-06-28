@@ -12,6 +12,7 @@
     <modules>
         <module>czech-railway-transportation</module>
         <module>transportation-api</module>
+        <module>bus-transportation</module>
     </modules>
 
     <dependencies>
@@ -19,6 +20,18 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.12</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.jalasoft</groupId>
+            <artifactId>JalasoftUtils</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
         </dependency>
     </dependencies>
 

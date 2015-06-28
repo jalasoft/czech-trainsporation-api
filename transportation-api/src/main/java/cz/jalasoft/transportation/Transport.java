@@ -10,4 +10,6 @@ public interface Transport {
     String code();
 
     String fullIdentification();
+
+    String carrierName();
 }

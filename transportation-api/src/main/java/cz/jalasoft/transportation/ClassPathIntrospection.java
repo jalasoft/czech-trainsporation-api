@@ -1,7 +1,6 @@
-package cz.jalasoft.transportation.aggregate;
+package cz.jalasoft.transportation;
 
 import com.google.common.reflect.ClassPath;
-import cz.jalasoft.transportation.Transportation;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -22,7 +21,8 @@ final class ClassPathIntrospection {
         Iterable<String> packageNames = packageNames();
         Iterable<ClassPath.ClassInfo> classInfos = searchPackages(packageNames);
 
-        return loadTransformationClasses(classInfos);
+        Iterable<Class<?>> classes = loadTransformationClasses(classInfos);
+        return filterTranformationClasses(classes);
     }
 
     private static Iterable<String> packageNames() {
@@ -52,12 +52,12 @@ final class ClassPathIntrospection {
         return ClassPath.from(ClassPathIntrospection.class.getClassLoader()).getTopLevelClassesRecursive("cz.jalasoft.transportation");
     }
 
-    private static Set<Class<Transportation>> loadTransformationClasses(Iterable<ClassPath.ClassInfo> classInfos) {
-        Set<Class<Transportation>> result = new HashSet<>();
+    private static Set<Class<?>> loadTransformationClasses(Iterable<ClassPath.ClassInfo> classInfos) {
+        Set<Class<?>> result = new HashSet<>();
 
         for(ClassPath.ClassInfo classInfo : classInfos) {
             if (isTransportationClass(classInfo)) {
-                Class<Transportation> clazz = (Class<Transportation>) classInfo.load();
+                Class<?> clazz = classInfo.load();
                 result.add(clazz);
             }
         }
@@ -67,5 +67,17 @@ final class ClassPathIntrospection {
 
     private static boolean isTransportationClass(ClassPath.ClassInfo classInfo) {
         return classInfo.getName().endsWith(CUSTOM_TRANSPORTATION_CLASS_SUFFIX);
+    }
+
+    private static Collection<Class<Transportation>> filterTranformationClasses(Iterable<Class<?>> possibleTransformations) {
+        Set<Class<Transportation>> result = new HashSet<>();
+
+        for(Class<?> transportation : possibleTransformations) {
+            if (Transportation.class.isAssignableFrom(transportation)) {
+                result.add((Class<Transportation>)transportation);
+            }
+        }
+
+        return result;
     }
 }

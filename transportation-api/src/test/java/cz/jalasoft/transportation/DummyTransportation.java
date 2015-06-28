@@ -1,20 +1,14 @@
-package cz.jalasoft.transportation.aggregate;
+package cz.jalasoft.transportation;
 
-import cz.jalasoft.transportation.Position;
-import cz.jalasoft.transportation.Schedule;
-import cz.jalasoft.transportation.Transport;
-import cz.jalasoft.transportation.Transportation;
 import cz.jalasoft.transportation.exception.TransportInfoRetrievalException;
 import cz.jalasoft.transportation.exception.TransportRetrievalException;
 
 import java.util.Collection;
 
 /**
- * Created by Honza Lastovicka on 25.6.15.
+ * Created by honzales on 28.6.15.
  */
-public class AggregatingTransportation extends Transportation {
-
-
+public class DummyTransportation implements Transportation {
 
     @Override
     public Collection<Transport> lookupTransport(String transport) throws TransportRetrievalException {
@@ -29,5 +23,15 @@ public class AggregatingTransportation extends Transportation {
     @Override
     public Position queryPosition(Transport transport) throws TransportInfoRetrievalException {
         return null;
+    }
+
+    @Override
+    public Carrier carrier() {
+        return new Carrier() {
+            @Override
+            public String name() {
+                return "Dummy Transportation";
+            }
+        };
     }
 }
