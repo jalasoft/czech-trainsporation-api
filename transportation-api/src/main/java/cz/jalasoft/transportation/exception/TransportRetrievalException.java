@@ -5,15 +5,21 @@ package cz.jalasoft.transportation.exception;
  */
 public class TransportRetrievalException extends Exception {
 
-    private final String transportDescription;
+    private final String transport;
 
-    public TransportRetrievalException(String transportDescription, String cause) {
+    public TransportRetrievalException(String transport, Exception cause) {
         super(cause);
 
-        this.transportDescription = transportDescription;
+        this.transport = transport;
     }
 
-    public String getTransportDescription() {
-        return transportDescription;
+    public TransportRetrievalException(String transport, String cause) {
+        super(cause);
+
+        this.transport = transport;
+    }
+
+    public String getTransport() {
+        return transport;
     }
 }

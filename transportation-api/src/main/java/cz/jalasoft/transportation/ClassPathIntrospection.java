@@ -73,7 +73,10 @@ final class ClassPathIntrospection {
         Set<Class<Transportation>> result = new HashSet<>();
 
         for(Class<?> transportation : possibleTransformations) {
-            if (Transportation.class.isAssignableFrom(transportation)) {
+            boolean isChildOfTransportation = Transportation.class.isAssignableFrom(transportation);
+            boolean isClass = !transportation.isInterface();
+
+            if (isChildOfTransportation && isClass) {
                 result.add((Class<Transportation>)transportation);
             }
         }

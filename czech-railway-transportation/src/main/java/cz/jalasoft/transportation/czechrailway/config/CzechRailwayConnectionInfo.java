@@ -1,17 +1,17 @@
-package cz.jalasoft.transportation.czechrailway.impl;
+package cz.jalasoft.transportation.czechrailway.config;
 
 import cz.jalasoft.util.configuration.annotation.Configuration;
 import cz.jalasoft.util.configuration.annotation.Key;
 import cz.jalasoft.util.configuration.annotation.SourceType;
 
 /**
- * Created by honzales on 17.5.15.
+ * Created by Honza Lastovicka on 30.6.15.
  */
 @Configuration(
         source = SourceType.CLASSPATH,
         name = "configuration.properties"
 )
-public interface TrainsportationConfiguration {
+public interface CzechRailwayConnectionInfo {
 
     @Key("server_host")
     String getHost();

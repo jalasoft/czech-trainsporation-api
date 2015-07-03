@@ -38,7 +38,7 @@ public final class Transportations {
         return result;
     }
 
-    public static Collection<Carrier> availaleCarriers() {
+    public static Collection<Carrier> availableCarriers() {
         return new HashSet<>(transportations.keySet());
     }
 }
