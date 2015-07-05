@@ -1,13 +1,13 @@
 package cz.jalasoft.transportation.czechrailway.page.extraction;
 
-import cz.jalasoft.transportation.czechrailway.assertion.TrainNotFoundAssertion;
+import java.util.List;
 
 /**
  * Created by honzales on 3.7.15.
  */
-public class ValueExtractors {
+public final class ValueExtractors {
 
-    public static ValueExtractor<Boolean> trainNotFound() {
-        return new TrainNotFoundAssertion();
+    public static ValueExtractor<List<String>> trainsDetailsLinks() {
+        return new TrainDetailLinksExtractor();
     }
 }

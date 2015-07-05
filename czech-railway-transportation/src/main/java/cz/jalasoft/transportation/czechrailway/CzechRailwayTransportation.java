@@ -3,16 +3,13 @@ package cz.jalasoft.transportation.czechrailway;
 import cz.jalasoft.net.http.HttpClient;
 import cz.jalasoft.net.http.netty.NettyHttpClient;
 import cz.jalasoft.transportation.*;
-import cz.jalasoft.transportation.czechrailway.page.MultipleTrainsPage;
 import cz.jalasoft.transportation.czechrailway.page.TrainDetailPage;
-import cz.jalasoft.transportation.czechrailway.page.UnknownTrainPage;
 import cz.jalasoft.transportation.exception.TransportInfoRetrievalException;
 import cz.jalasoft.transportation.exception.TransportRetrievalException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
-import java.util.Collections;
 
 import static cz.jalasoft.util.ArgumentAssertion.mustNotBeNull;
 import static cz.jalasoft.util.ArgumentAssertion.mustNotBeNullOrEmpty;
@@ -25,16 +22,15 @@ public final class CzechRailwayTransportation implements Transportation {
     private static final Logger LOGGER = LoggerFactory.getLogger(CzechRailwayTransportation.class);
 
     private final Carrier carrier;
-    private final HttpClient httpClient;
 
-    private final WebCrawler crawler;
+    private final TrainDetailPageFlow trainDetailFlow;
 
 
     public CzechRailwayTransportation() {
         carrier = new CzechRailwayCarrier();
-        httpClient = new NettyHttpClient();
+        HttpClient httpClient = new NettyHttpClient();
 
-        this.crawler = new WebCrawler(httpClient);
+        this.trainDetailFlow = new TrainDetailPageFlow(httpClient);
         LOGGER.debug("Czech Railway Transportation has been instantiated");
     }
 
@@ -44,21 +40,9 @@ public final class CzechRailwayTransportation implements Transportation {
 
         LOGGER.debug("Transport is being looked up: {}", transport);
 
-        UnknownTrainPage unknownPage = crawler.searchTrain(transport);
+        Collection<TrainDetailPage> page = trainDetailFlow.trainDetail(transport);
 
-        if (unknownPage.isTrainNotFound()) {
-            return Collections.emptyList();
-        }
 
-        if (unknownPage.isTrainDetail()) {
-            TrainDetailPage trainPage = unknownPage.asTrainDetailPage();
-            //TODO
-        }
-
-        if (unknownPage.isMultipleTrainsFound()) {
-            MultipleTrainsPage trainsPage = unknownPage.asMultipleTrainsPage();
-            //TODO
-        }
 
         throw new TransportRetrievalException(transport, "Unexpected page format. No possible state of the page has been indicated by analyzing page content.");
     }
