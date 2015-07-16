@@ -12,26 +12,79 @@
 
     <artifactId>czech-railway-transportation</artifactId>
 
+    <properties>
+        <scala.version>2.11.7</scala.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>scala-tools.org</id>
+            <name>Scala-Tools Maven2 Repository</name>
+            <url>http://scala-tools.org/repo-releases</url>
+        </repository>
+        <repository>
+            <id>Central Repo</id>
+            <name>Central repo</name>
+            <url>http://repo1.maven.org/maven2/</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>scala-tools.org</id>
+            <name>Scala-Tools Maven2 Repository</name>
+            <url>http://scala-tools.org/repo-releases</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <dependencies>
         <dependency>
             <groupId>cz.jalasoft.transportation</groupId>
             <artifactId>transportation-api</artifactId>
-            <version>1.0.0</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.jalasoft</groupId>
             <artifactId>HttpClient</artifactId>
-            <version>1.0.2</version>
+            <version>1.0.5</version>
         </dependency>
         <dependency>
             <groupId>com.github.jalasoft</groupId>
             <artifactId>NettyHttpClient</artifactId>
-            <version>1.0.2</version>
+            <version>1.0.5</version>
         </dependency>
         <dependency>
             <groupId>com.github.jalasoft</groupId>
             <artifactId>JalasoftUtils</artifactId>
             <version>1.0.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>${scala.version}</version>
+        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.scala-tools</groupId>
+                <artifactId>maven-scala-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <scalaVersion>${scala.version}</scalaVersion>
+                    <args>
+                        <arg>-target:jvm-1.8</arg>
+                    </args>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
