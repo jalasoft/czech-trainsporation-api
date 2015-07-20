@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.2//EN"
+ "http://www.openmobilealliance.org/tech/DTD/xhtml-mobile12.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+<head>
+    <!-- CRWS -->
+    <title>Informace o vlaku | České dráhy, a.s.</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="expires" content="-1" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable
+=0;" />
+    <meta name="format-detection" content="telephone=no" />
+    <link href="ogres/Css/screen.css" rel="stylesheet" type="text/css" /><script type="text/javascript"
+ src="/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/menuContr.js"></script>
+
+    <link href="/spojeni/CSSContent/LAYOUT?v=SfcXTpoS_3Xw5DnGU8XQYlLqNQMqi3lJq7i_BGyjgsM1" rel="stylesheet"
+ type="text/css" />
+    <script type="text/javascript" src="/spojeni/JSContent/BASEJQ?v=RuF_DDINHM6pIg17GkzJGwYFDPE2SJNtlUIo_LnY7QQ1"
+></script>
+<script type="text/javascript" src="/azakmod/optiga-conf.js"></script>
+</head>
+<body>
+    <div id="page">
+        <div id="logo"><a href="/"><img src="/images/cd-logo.png" alt="" class="logo" /></a></div>
+
+
+<div id="header">Detail vlaku</div>
+
+    <div class="group map">
+          <p class="row header">
+            <span class="right">20.7. </span>
+            <span class="train"><strong>R 844 </strong></span>
+            <span>
+                    <span class="right map"><a href="ogres/OGApi/MAPT/?p=MCUxOTEyOTclLTElLTElLTElJSUyMC4gNy4gMjAxNSAwOjAwOjAwJVZsYWstNzMwNGI5NGU0NjVjNDEzYWFjOWIzMWEyMDE4NTRiZDItNQ--"
+>Na mapě</a></span>
+                <img src="ogres/img/FCw/169.gif" alt="NPP" width="14" height="14" /> <img src="ogres
+/img/FCw/082.gif" alt="R" width="14" height="14" /> <img src="ogres/img/FCw/174.gif" alt="D" width="14"
+ height="14" /> <img src="ogres/img/FCw/170.gif" alt="hko" width="23" height="15" /> <img src="ogres
+/img/FCw/188.gif" alt="do" width="14" height="14" />
+            </span>
+            <br class="reset" />
+            </p>
+
+
+    </div>
+        <div class="group">
+          <div class="row ">
+            <span class="right">
+                <span class="right tright w60 f90 contractspan2">Odjezd</span>
+                <span class="right tright w60 f90 contractspan2">Příjezd</span>
+            </span>
+            <h2>Jízdní řád</h2>
+                <span class="connectt">
+                    <span class="right tright w60"><strong>6:35</strong></span>
+                    <span class="right tright w60"><strong> </strong></span>
+                    <strong>Bohumín</strong>
+                </span>
+                <span class="connectm content">
+                    <span class="right tright w60">6:44</span>
+                    <span class="right tright w60">6:42</span>
+                    Ostrava hl.n.
+                </span>
+                <span class="connectm content">
+                    <span class="right tright w60">6:52</span>
+                    <span class="right tright w60">6:50</span>
+                    Ostrava-Svinov
+                </span>
+                <span class="connectm content">
+                    <span class="right tright w60">7:02</span>
+                    <span class="right tright w60">7:01</span>
+                    Studénka
+                </span>
+                <span class="connectm content">
+                    <span class="right tright w60">7:10</span>
+                    <span class="right tright w60">7:09</span>
+                    Suchdol n.Odrou
+                </span>
+                <span class="connectm content">
+                    <span class="right tright w60">7:23</span>
+                    <span class="right tright w60">7:22</span>
+                    Hranice na Moravě
+                </span>
+                <span class="connectm content">
+                    <span class="right tright w60">7:42</span>
+                    <span class="right tright w60">7:40</span>
+                    Přerov
+                </span>
+                <span class="connectm content">
+                    <span class="right tright w60">7:57</span>
+                    <span class="right tright w60">7:55</span>
+                    Kojetín
+                </span>
+                <span class="connectm content">
+                    <span class="right tright w60">8:20</span>
+                    <span class="right tright w60">8:19</span>
+                    Vyškov na Moravě
+                </span>
+                <span class="connectb">
+                    <span class="right tright w60"><strong> </strong></span>
+                    <span class="right tright w60"><strong>8:57</strong></span>
+                    <strong>Brno hl.n.</strong>
+                </span>
+            <br /><br class="reset" />
+          </div>
+
+            <div class="row orange p10 f80">
+              <span>
+              <strong>Omezení provozu</strong>
+              <ul>
+                <li>Výluka v úseku Brno hlavní nádraží - Sokolnice-Telnice <a href="http://m.cd.cz/aktualne
+/vyluka.html?id=10661&amp;ido=13011&amp;datum=20.07.2015"><strong>Detail »</strong></a></li>
+              </ul>
+              </span>
+            </div>
+        </div>
+        <div class="group trainsort">
+            <div class="row noborder">
+                <h2>Řazení vlaku ve stanici Bohumín</h2>
+                                <div class="overscroll">
+                                    <div class="arrow left"><span> </span></div>
+                                    <div class="arrow right"><span> </span></div>
+                                    <div class="trainorder-box">
+                                        <table class="results"><tbody><tr><td><div class="trainimg">
+<table class="coachtbl f75"><tr class="trimg"><td><img src="http://www.cd.cz/razeni/Img/IcoBox/HV_EL
+.gif" alt="Elektrická lokomotiva" width="166" height="58" /></td><td><img src="http://www.cd.cz/razeni
+/Img/IcoBox/B2.gif" alt="Vůz s oddíly 2. třídy" width="166" height="58" /></td><td><img src="http://www
+.cd.cz/razeni/Img/IcoBox/B2.gif" alt="Vůz s oddíly 2. třídy" width="166" height="58" /></td><td><img
+ src="http://www.cd.cz/razeni/Img/IcoBox/B2.gif" alt="Vůz s oddíly 2. třídy" width="166" height="58"
+ /></td><td><img src="http://www.cd.cz/razeni/Img/IcoBox/B2.gif" alt="Vůz s oddíly 2. třídy" width="166"
+ height="58" /></td><td><img src="http://www.cd.cz/razeni/Img/IcoBox/B2.gif" alt="Vůz s oddíly 2. tř
+ídy" width="166" height="58" /></td><td><img src="http://www.cd.cz/razeni/Img/IcoBox/B2_povkolo_neginv_D
+.gif" alt="Vůz s oddíly 2. třídy; vůz vhodný pro přepravu cestujících na vozíku, vybavený zvedací plo
+šinou; rozšířená přeprava spoluzavazadel s povinnou rezervací místa pro jízdní kolo; vůz nebo oddíly
+, vyhrazené pro cestující s dětmi do 10 let" width="166" height="58" /></td><td><img src="http://www
+.cd.cz/razeni/Img/IcoBox/A1.gif" alt="Vůz s oddíly 1. třídy" width="166" height="58" /></td></tr><tr
+ class="trnum"><td><div class="sector l"> </div><div class="coachnum l"> </div><div class="invnums l"
+> </div></td><td><div class="sector l"> </div><div class="coachnum l" title="Rezervační číslo vozu">363
+</div><div class="invnums l"> </div></td><td><div class="sector l"> </div><div class="coachnum l" title
+="Rezervační číslo vozu">366</div><div class="invnums l"> </div></td><td><div class="sector l"> </div
+><div class="coachnum l" title="Rezervační číslo vozu">367</div><div class="invnums l"> </div></td><td
+><div class="sector l"> </div><div class="coachnum l" title="Rezervační číslo vozu">368</div><div class
+="invnums l"> </div></td><td><div class="sector l"> </div><div class="coachnum l" title="Rezervační
+číslo vozu">369</div><div class="invnums l"> </div></td><td><div class="sector l"> </div><div class="coachnum
+ l" title="Rezervační číslo vozu">370</div><div class="invnums l"><span title="Servisní vůz, Oddíl č
+ís. 9 dámský">1</span></div></td><td><div class="sector l"> </div><div class="coachnum l" title="Rezerva
+ční číslo vozu">372</div><div class="invnums l"> </div></td></tr><tr class="trainforow"><td><div class
+="traininfo">Elektrická lokomotiva</div></td><td><div class="traininfo">Vůz s oddíly 2. třídy</div><
+/td><td><div class="traininfo">Vůz s oddíly 2. třídy</div></td><td><div class="traininfo">Vůz s oddíly
+ 2. třídy</div></td><td><div class="traininfo">Vůz s oddíly 2. třídy</div></td><td><div class="traininfo"
+>Vůz s oddíly 2. třídy</div></td><td><div class="traininfo">Vůz s oddíly 2. třídy; vůz vhodný pro přepravu
+ cestujících na vozíku, vybavený zvedací plošinou; rozšířená přeprava spoluzavazadel s povinnou rezervac
+í místa pro jízdní kolo; vůz nebo oddíly, vyhrazené pro cestující s dětmi do 10 let</div></td><td><div
+ class="traininfo">Vůz s oddíly 1. třídy</div></td></tr></table></div></td></tr><tr><td class="notes"
+><table class="invtbl l"><tr><td class="invnumtd"><span>1</span></td><td>Servisní vůz<br />Oddíl čís
+. 9 dámský</td></tr></table></td></tr></tbody></table>
+
+                                    </div>
+                                </div>
+
+
+            </div>
+        </div>
+            <script type="text/javascript">
+                 var goTrainOrder = new TrainOrder('arrows'); goTrainOrder.Init();
+            </script>
+         <div class="group dark remarks">
+            <div class="row gray p10 f80 noborder">
+                <span>
+                    <strong>Poznámky</strong>
+                    <ul><li><a href="http://www.cd.cz" target="_blank">České dráhy, a.s.</a>; nábřež
+í L.Svobody 1222/12, 110 15 Praha 1; +420 840 112 113</li><li>vůz vhodný pro přepravu cestujících na
+ vozíku, vybavený zvedací plošinou</li><li>do označených vozů možno zakoupit místenku</li><li>vůz nebo
+ oddíly vyhrazené pro cestující s dětmi do 10 let</li><li>přeprava spoluzavazadel s povinnou rezervac
+í místa pro jízdní kolo a cestujícího, v některých vlacích pouze pro jízdní kolo</li><li>dámský oddíl
+ (oddíl pro samostatně cestující ženy)</li><li>platí také jízdní doklady IDS JMK (Vyškov na Moravě-&gt
+;Brno hl.n.)</li><li>platí také jízdní doklady ODIS (Bohumín-&gt;Suchdol n.Odrou)</li><li>linka R7 [Esko
+ Moravskoslezské] (Bohumín-&gt;Suchdol n.Odrou)</li><li>linka R7 [IDS JMK] (Vyškov na Moravě-&gt;Brno
+ hl.n.)</li></ul>
+                 </span>
+            </div>
+        </div>
+<p class="center changeinput"><a class="submit dg" href="/vlak/?ui=ODQ0JTIwLiA3LiAyMDE1IDA6MDA6MDAlVmxhay03MzA0Yjk0ZTQ2NWM0MTNhYWM5YjMxYTIwMTg1NGJkMi01JS0xLzE5MTMyNyUw"
+>Změnit zadání</a></p>
+
+        <div id="footer">
+            <p>
+                <a href="/mapa-stranek/">Mapa stránek</a>
+                <a href="/kontakty/-3541/tmplid-860/">Kontakty</a>
+                <a href="/scripts/modules/fg/fulltxt.php?tmplid=867">Hledání na webu</a>
+            </p>
+            <p>Copyright 2012 - České dráhy, a.s.</p>
+        </div>
+        <div id="footerlinks">
+            <p>
+
+                <a class="flag" href="http://m.cd.cz/sluzby/dobre-rady/-14470/tmplid-860/" title="Vysv
+ětlivky symbolů">Vysvětlivky symbolů</a>
+                    <a href="http://www.cd.cz/frommobile.php">Zobrazit plnou verzi</a>
+
+            </p>
+        </div>
+        <div id="menuopen" class="open" style="display: none">
+            <div id="menu" class="open">
+                <ul>
+                    <li><a href="/spojeni" title="" class="menu1">Spojení a jízdenka</a></li>
+                    <li><a href="/vlak" title="" class="menu2">Informace o vlaku</a></li>
+                    <li><a href="/stanice" title="" class="menu3">Informace o stanici</a></li>
+                    <li><a href="/aktualne" title="" class="menu4"><span><span></span></span>Aktuáln
+ě</a></li>
+                    <li><a href="/sluzby/" title="" class="menu5">Služby a nabídky</a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="menuclose" class="open">
+            <a href="#" title=""> </a>
+        </div>
+            <div id="menuback">
+                <a href="#" title=""> </a>
+            </div>
+
+    </div>
+<!-- Webtrekk 3.1.5, (c) www.webtrekk.com -->
+<script type="text/javascript" src="/azakmod/webtrekk_v3.js"></script>
+<noscript><div><img src="http://ceskedrahy01.webtrekk.net/642308792998760/wt.pl?p=315,0" height="1" width
+="1" alt="" /></div></noscript>
+<script type="text/javascript" src="/azakmod/wtazak.js"></script>
+<!-- /Webtrekk -->
+<script type="text/javascript" src="/azakmod/optiga.js"></script>
+</body>
+</html>

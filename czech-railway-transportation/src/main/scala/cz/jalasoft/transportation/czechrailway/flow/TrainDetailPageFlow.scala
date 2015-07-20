@@ -1,4 +1,4 @@
-package cz.jalasoft.transportation.czechrailway
+package cz.jalasoft.transportation.czechrailway.flow
 
 import java.net.URI
 import java.text.SimpleDateFormat
@@ -6,11 +6,15 @@ import java.util.Date
 
 import cz.jalasoft.net.http.HttpClient
 import cz.jalasoft.net.http.URIBuilder._
-import cz.jalasoft.net.http.netty.NettyHttpClient
-import cz.jalasoft.transportation.czechrailway.page.{Page, MultipleTrainsPage, TrainDetailPage}
+import cz.jalasoft.transportation.czechrailway.page.{MultipleTrainsPage, Page, TrainDetailPage}
+import cz.jalasoft.transportation.czechrailway.{ConfigurationProperties, Loggable}
 
-import scala.util.{Success, Failure, Try}
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.{Await, Future}
+import scala.concurrent.duration.Duration
+import scala.util.{Failure, Success, Try}
+import scala.collection._
+import scala.concurrent.duration._
 
 object TrainDetailPageFlow extends ConfigurationProperties {
 
@@ -38,7 +42,7 @@ object TrainDetailPageFlow extends ConfigurationProperties {
     s"Mask=${train}&form-date=${formattedDate}&cmdSearch=Vyhledat"
   }
 
-  def from(train : String) = new TrainDetailPageFlow(train, new NettyHttpClient)
+  def apply(train : String, client : HttpClient) = new TrainDetailPageFlow(train, client)
 }
 
 /**
@@ -46,20 +50,15 @@ object TrainDetailPageFlow extends ConfigurationProperties {
  */
 class TrainDetailPageFlow private (train : String, client : HttpClient) extends Loggable {
 
-  def loadTrainsDetail : Try[Seq[TrainDetailPage]] = {
+  def loadTrainsDetail : Seq[TrainDetailPage] = {
     debug(s"Starting loading train details for train ${train}")
 
     val triedTrainDetail = loadTrainDetail
 
-    try {
-      triedTrainDetail match {
-        case Failure(e) => Failure(e)
-        case Success(p: TrainDetailPage) => Success(Seq(p))
-        case Success(p: MultipleTrainsPage) => loadTrainDetails(p)
-      }
-    } finally {
-      debug("Closing Http client")
-      client.close()
+    triedTrainDetail match {
+      case Failure(e) => throw e //TODO throw transportation specific exception
+      case Success(p: TrainDetailPage) => Seq(p)
+      case Success(p: MultipleTrainsPage) => loadMultipleTrainDetails(p)
     }
   }
 
@@ -79,23 +78,21 @@ class TrainDetailPageFlow private (train : String, client : HttpClient) extends 
     .withFormParametersPayload(TrainDetailPageFlow.lookupTrainRequestBody(train))
     .send
 
-  private def loadTrainDetails(trainsPage : MultipleTrainsPage) : Try[Seq[TrainDetailPage]] = {
-    val urls = trainsPage.trainsHostsAndPaths
+  private def loadMultipleTrainDetails(trainsPage : MultipleTrainsPage) : Seq[TrainDetailPage] = {
+    val urls : Seq[(String, String)] = trainsPage.trainsHostsAndPaths
     debug("Starting loading trains details for " + urls.size + " pages")
 
-    var result = Nil
+    val runningLoadings : Seq[Future[TrainDetailPage]] =
+      urls.map({
+        case (path, params) => Future { loadTrainDetailPage(path, params)}
+      })
 
-    for((path, params) <- urls) yield {
-      val maybePage = loadTrainDetailPage(path, params)
-      maybePage match {
-        case Failure(exc) => Failure(exc)
-        case Success(page) => result :+ page
-      }
+    for(future <- runningLoadings) yield {
+      Await.result(future, Duration.Inf)
     }
-    Success(result)
   }
 
-  private def loadTrainDetailPage(path: String, params : String) : Try[TrainDetailPage] = {
+  private def loadTrainDetailPage(path: String, params : String) : TrainDetailPage = {
     try {
       debug("Starting loading trains detail page for url params " + params)
 
@@ -103,12 +100,12 @@ class TrainDetailPageFlow private (train : String, client : HttpClient) extends 
       debug("Trains info page retrieved with status code " + response.getStatusCode)
 
       Page(response.getContentAsString) match {
-        case p : TrainDetailPage => Success(p)
+        case p : TrainDetailPage => p
       }
     } catch {
       case exc : Exception => {
         error("An error occurred during retrieving information for url params, reason: {}, params: {}", exc.getMessage, params)
-        Failure(exc)
+        throw exc
       }
     }
   }
