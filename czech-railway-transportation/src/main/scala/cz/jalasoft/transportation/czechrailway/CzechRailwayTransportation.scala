@@ -4,6 +4,8 @@ import cz.jalasoft.net.http.netty.NettyHttpClient
 import cz.jalasoft.transportation._
 import cz.jalasoft.transportation.czechrailway.flow.TrainDetailPageFlow
 
+import scala.collection.JavaConversions._
+
 /**
  * Created by honzales on 28.6.15.
  */
@@ -19,12 +21,10 @@ class CzechRailwayTransportation extends Transportation with Loggable {
     val client = new NettyHttpClient
 
     try {
-      val result = TrainDetailPageFlow(transport, client).loadTrainsDetail
+      TrainDetailPageFlow(transport, client).loadTrainsDetail
     } finally {
       client.close()
     }
-
-    new java.util.ArrayList[Transport]
   }
 
   override def querySchedule(transport: Transport): Schedule = {

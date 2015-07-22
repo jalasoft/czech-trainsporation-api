@@ -1,13 +1,13 @@
 package cz.jalasoft.transportation.czechrailway.page
 
-import cz.jalasoft.transportation.czechrailway.ConfigurationProperties
 import cz.jalasoft.util.text.FragmentConverters._
+
 import scala.collection.JavaConversions._
 
 /**
  * Created by honzales on 8.7.15.
  */
-trait MultipleTrainsPage extends Page with ConfigurationProperties {
+trait MultipleTrainsPage extends Page {
 
   private val TRAIN_LINK_PATTERN = "<a href=\"(.*)\\?(.*)\" class=\"train thin\""
   //private val TRAIN_LINK_PATTERN = """<a href="(.*)\\?(.*)" class="train thin""""

@@ -6,17 +6,18 @@ import java.util.Date
 
 import cz.jalasoft.net.http.HttpClient
 import cz.jalasoft.net.http.URIBuilder._
+import cz.jalasoft.transportation.czechrailway.ConnectionProperties._
+import cz.jalasoft.transportation.czechrailway.Loggable
 import cz.jalasoft.transportation.czechrailway.page.{MultipleTrainsPage, Page, TrainDetailPage}
-import cz.jalasoft.transportation.czechrailway.{ConfigurationProperties, Loggable}
+import cz.jalasoft.transportation.exception.TransportRetrievalException
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{Await, Future}
-import scala.concurrent.duration.Duration
-import scala.util.{Failure, Success, Try}
 import scala.collection._
-import scala.concurrent.duration._
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, Future}
+import scala.util.{Failure, Success, Try}
 
-object TrainDetailPageFlow extends ConfigurationProperties {
+object TrainDetailPageFlow {
 
   private val DATE_PATTERN = "dd.MM.YYYY"
   private val TRAIN_LOOKUP_REQUEST_PAYLOAD_PATTERN = "Mask=%s&form-date=%s&cmdSearch=Vyhledat"
@@ -46,9 +47,9 @@ object TrainDetailPageFlow extends ConfigurationProperties {
 }
 
 /**
- * Created by honzales on 11.7.15.
+ * Created by Honza Lastovicka on 11.7.15.
  */
-class TrainDetailPageFlow private (train : String, client : HttpClient) extends Loggable {
+final class TrainDetailPageFlow private (train : String, client : HttpClient) extends Loggable {
 
   def loadTrainsDetail : Seq[TrainDetailPage] = {
     debug(s"Starting loading train details for train ${train}")
@@ -56,7 +57,7 @@ class TrainDetailPageFlow private (train : String, client : HttpClient) extends 
     val triedTrainDetail = loadTrainDetail
 
     triedTrainDetail match {
-      case Failure(e) => throw e //TODO throw transportation specific exception
+      case Failure(e) => throw e
       case Success(p: TrainDetailPage) => Seq(p)
       case Success(p: MultipleTrainsPage) => loadMultipleTrainDetails(p)
     }
@@ -68,7 +69,7 @@ class TrainDetailPageFlow private (train : String, client : HttpClient) extends 
 
     response match {
       case ok if response.isStatusOK => Success(Page(response.getContentAsString))
-      case _ => Failure(new RuntimeException(response.getReason))
+      case _ => Failure(new TransportRetrievalException(train, "An error occurred during retrieving response for train search request: " + response.getStatusCode + ": " + response.getReason))
     }
   }
 
@@ -82,32 +83,37 @@ class TrainDetailPageFlow private (train : String, client : HttpClient) extends 
     val urls : Seq[(String, String)] = trainsPage.trainsHostsAndPaths
     debug("Starting loading trains details for " + urls.size + " pages")
 
-    val runningLoadings : Seq[Future[TrainDetailPage]] =
+    val runningLoadings : Seq[Future[Try[TrainDetailPage]]] =
       urls.map({
         case (path, params) => Future { loadTrainDetailPage(path, params)}
       })
 
-    for(future <- runningLoadings) yield {
+    val triedPages = for(future <- runningLoadings) yield {
       Await.result(future, Duration.Inf)
+    }
+
+    triedPages collect { case Failure(e) => error("Retrieving of a page detailed ended with an error", e)}
+
+    triedPages map {
+      case Success(p) => p
     }
   }
 
-  private def loadTrainDetailPage(path: String, params : String) : TrainDetailPage = {
-    try {
+  private def loadTrainDetailPage(path: String, params : String) : Try[TrainDetailPage] = {
+
       debug("Starting loading trains detail page for url params " + params)
 
       val response = sendTrainDetailRequest(path, params)
       debug("Trains info page retrieved with status code " + response.getStatusCode)
 
+      if (!response.isStatusOK) {
+        Failure(new TransportRetrievalException(train, "An error occurred during retrievig train detail response for train " + train + ": " + response.getStatusCode + ": " + response.getReason))
+      }
+
       Page(response.getContentAsString) match {
-        case p : TrainDetailPage => p
+        case p : TrainDetailPage => Success(p)
+        case _ => Failure(new TransportRetrievalException(train, "An error occurred during retrieving train detail for train " + train + ": unknown format of train detail page."))
       }
-    } catch {
-      case exc : Exception => {
-        error("An error occurred during retrieving information for url params, reason: {}, params: {}", exc.getMessage, params)
-        throw exc
-      }
-    }
   }
 
   private def sendTrainDetailRequest(path : String, params : String) = client.getRequest

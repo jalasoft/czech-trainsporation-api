@@ -3,13 +3,13 @@ package cz.jalasoft.transportation.czechrailway
 import cz.jalasoft.util.configuration.annotation.{Configuration, Key, SourceType}
 import cz.jalasoft.util.configuration.{Configuration => ObjectConfig}
 
-trait ConfigurationProperties {
+object ConnectionProperties {
 
-  private lazy val config = new ObjectConfig().instantiate(classOf[ConnectionProperties])
+  private lazy val config = new ObjectConfig().instantiate(classOf[PropertiesProvider])
 
-  protected def host: String = config.host
-  protected def port: Int = config.port
-  protected def lookupTrainPath: String = config.lookupTrainPath
+  def host: String = config.host
+  def port: Int = config.port
+  def lookupTrainPath: String = config.lookupTrainPath
 }
 
 /**
@@ -18,7 +18,7 @@ trait ConfigurationProperties {
 @Configuration(
   source = SourceType.CLASSPATH,
   name = "configuration.properties")
-trait ConnectionProperties {
+private trait PropertiesProvider {
 
   @Key("server_host")
   def host: String

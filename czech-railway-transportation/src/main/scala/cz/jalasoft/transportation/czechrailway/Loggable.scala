@@ -9,8 +9,27 @@ trait Loggable {
 
   private val logger = LoggerFactory.getLogger(getClass)
 
-  protected def debug(msg : String) = logger.debug(msg)
-  protected def debug(msg : String, params : java.lang.Object*) = logger.debug(msg, params)
-  protected def error(msg : String) = logger.error(msg)
-  protected def error(msg : String, params : java.lang.Object*) = logger.error(msg, params)
+  protected def debug(msg : => String) : Unit = {
+    if (logger.isDebugEnabled) {
+      logger.debug(msg)
+    }
+  }
+
+  protected def debug(msg : => String, params : java.lang.Object*) : Unit = {
+    if (logger.isDebugEnabled()) {
+      logger.debug(msg, params)
+    }
+  }
+
+  protected def error(msg : => String) : Unit = {
+    if (logger.isErrorEnabled()) {
+      logger.error(msg)
+    }
+  }
+
+  protected def error(msg : => String, params : java.lang.Object*) : Unit = {
+    if (logger.isErrorEnabled()) {
+      logger.error(msg, params)
+    }
+  }
 }

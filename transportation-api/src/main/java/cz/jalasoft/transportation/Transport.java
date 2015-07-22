@@ -1,11 +1,13 @@
 package cz.jalasoft.transportation;
 
+import java.util.Optional;
+
 /**
  * Created by honzales on 16.5.15.
  */
 public interface Transport {
 
-    String name();
+    Optional<String> name();
 
     String code();
 

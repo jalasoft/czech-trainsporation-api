@@ -20,7 +20,7 @@ class TrainDetailPageTest {
 
   @Test
   def getsExpectedTrainNumber = {
-    val number = page.trainNumber
+    val number = page.name()
     Assert.assertEquals("R 844 ", number)
   }
 
