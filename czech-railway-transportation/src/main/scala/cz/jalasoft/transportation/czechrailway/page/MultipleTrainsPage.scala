@@ -1,13 +1,14 @@
 package cz.jalasoft.transportation.czechrailway.page
 
 import cz.jalasoft.util.text.FragmentConverters._
+import cz.jalasoft.util.text.TextFragment
 
 import scala.collection.JavaConversions._
 
 /**
  * Created by honzales on 8.7.15.
  */
-trait MultipleTrainsPage extends Page {
+final class MultipleTrainsPage (fragment : TextFragment) extends Page(fragment) {
 
   private val TRAIN_LINK_PATTERN = "<a href=\"(.*)\\?(.*)\" class=\"train thin\""
   //private val TRAIN_LINK_PATTERN = """<a href="(.*)\\?(.*)" class="train thin""""

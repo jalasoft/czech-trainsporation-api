@@ -3,6 +3,7 @@ package cz.jalasoft.transportation.czechrailway;
 import cz.jalasoft.transportation.Transport;
 import cz.jalasoft.transportation.Transportation;
 import cz.jalasoft.transportation.exception.TransportRetrievalException;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,7 +24,7 @@ public class TransportationLiveTest {
 
     @Test
     public void test() throws TransportRetrievalException {
-        Collection<Transport> result = transportation.lookupTransport("Hasek");
+        Collection<Transport> result = transportation.lookupTransport("864");
         Transport t = result.iterator().next();
 
         String code = t.code();
@@ -31,5 +32,12 @@ public class TransportationLiveTest {
         String fullId = t.fullIdentification();
 
         System.out.println("code: " + code + ", name: " + maybeName + ", full: " + fullId);
+    }
+
+    @Test
+    public void findsNothing() throws TransportRetrievalException {
+        Collection<Transport> result = transportation.lookupTransport("Blbost");
+
+        Assert.assertTrue(result.isEmpty());
     }
 }

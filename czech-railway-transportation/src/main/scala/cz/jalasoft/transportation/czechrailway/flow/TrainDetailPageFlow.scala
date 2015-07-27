@@ -8,7 +8,7 @@ import cz.jalasoft.net.http.HttpClient
 import cz.jalasoft.net.http.URIBuilder._
 import cz.jalasoft.transportation.czechrailway.ConnectionProperties._
 import cz.jalasoft.transportation.czechrailway.Loggable
-import cz.jalasoft.transportation.czechrailway.page.{MultipleTrainsPage, Page, TrainDetailPage}
+import cz.jalasoft.transportation.czechrailway.page._
 import cz.jalasoft.transportation.exception.TransportRetrievalException
 
 import scala.collection._
@@ -54,12 +54,13 @@ final class TrainDetailPageFlow private (train : String, client : HttpClient) ex
   def loadTrainsDetail : Seq[TrainDetailPage] = {
     debug(s"Starting loading train details for train ${train}")
 
-    val triedTrainDetail = loadTrainDetail
-
-    triedTrainDetail match {
-      case Failure(e) => throw e
-      case Success(p: TrainDetailPage) => Seq(p)
+    loadTrainDetail match {
+      case Success(p: TrainDetailPage) => p :: Nil
       case Success(p: MultipleTrainsPage) => loadMultipleTrainDetails(p)
+      case Success(p: NoTrainPage) => Nil
+      case Success(p: UnknownPage) => throw new TransportRetrievalException(train, "Unknown page")
+      case Failure(e : Exception) => throw new TransportRetrievalException(train, e)
+      case Failure(e) => throw e
     }
   }
 
@@ -94,8 +95,11 @@ final class TrainDetailPageFlow private (train : String, client : HttpClient) ex
 
     triedPages collect { case Failure(e) => error("Retrieving of a page detailed ended with an error", e)}
 
-    triedPages map {
-      case Success(p) => p
+    triedPages filter {
+      case Success(p) if p.isCzechRailwayCompany => true
+      case _ => false
+    } map {
+        case Success(p) => p
     }
   }
 

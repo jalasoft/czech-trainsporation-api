@@ -5,29 +5,25 @@ import cz.jalasoft.util.text.{Fragment, TextFragment}
 /**
  * Created by honzales on 8.7.15.
  */
-trait Page {
+case class Page protected(fragment : TextFragment) {
 
-  val fragment : TextFragment;
-
-  protected def get[T](f: TextFragment => T) : T = f(fragment)
-
-
+  require(fragment != null, "Text fragment must not be null")
 }
 
 object Page {
 
   private val MULTIPLE_TRAINS_PAGE_HINT = "<div id=\"header\">Nalezené vlaky</div>"
-  private val TRAIN_PAGE_HINT = """<title>Informace o vlaku | České dráhy, a.s.</title>""";
+  private val NO_TRAIN_HINT = "Vlak nebyl nalezen."
+  private val TRAIN_PAGE_HINT = "<div id=\"header\">Detail vlaku</div>";
 
   def apply(text: String) : Page = {
     val fragment = Fragment.fromText(text);
 
     text match {
-      case content1 if text.contains(MULTIPLE_TRAINS_PAGE_HINT) =>
-        new UnknownPage(fragment) with MultipleTrainsPage
-
-      case content2 if text.contains(TRAIN_PAGE_HINT) =>
-        new UnknownPage(fragment) with TrainDetailPage
+      case _ if text.contains(MULTIPLE_TRAINS_PAGE_HINT) => new MultipleTrainsPage(fragment)
+      case _ if text.contains(NO_TRAIN_HINT) => new NoTrainPage(fragment)
+      case _ if text.contains(TRAIN_PAGE_HINT) => new TrainDetailPage(fragment)
+      case _ => new UnknownPage(fragment)
     }
   }
 }
