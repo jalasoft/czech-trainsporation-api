@@ -12,7 +12,7 @@ final class TrainDetailPage(fragment : TextFragment) extends Page(fragment) with
 
   private val TRAIN_NUMBER_SECTION_BEGIN = """<div class="group map">"""
   private val TRAIN_NUMBER_SECTION_END = """Na mapě</a></span>"""
-  private val TRAIN_NUMBER_PATTERN = "<span class=\"train\"><strong>((.*) \\((.*)\\))</strong></span>";
+  private val TRAIN_NUMBER_PATTERN = "<span class=\"train\"><strong>((.*) (\\((.*)\\))?)</strong></span>";
   private val TRAIN_NUMBER_PATTERN3 = "<span class=\"train\"><strong>(.*)</strong></span>"
   private val CZECH_RAILWAY_CARRIER_NAME = "<a href=\"http://www.cd.cz\" target=\"_blank\">České dráhy, a.s.</a>"
 

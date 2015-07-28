@@ -3,12 +3,13 @@ package cz.jalasoft.transportation.czechrailway;
 import cz.jalasoft.transportation.Transport;
 import cz.jalasoft.transportation.Transportation;
 import cz.jalasoft.transportation.exception.TransportRetrievalException;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collection;
 import java.util.Optional;
+
+import static org.junit.Assert.*;
 
 /**
  * Created by honzales on 30.6.15.
@@ -23,21 +24,41 @@ public class TransportationLiveTest {
     }
 
     @Test
-    public void test() throws TransportRetrievalException {
+    public void findsATrainViaMultipleTrainsPage() throws TransportRetrievalException {
         Collection<Transport> result = transportation.lookupTransport("864");
         Transport t = result.iterator().next();
 
         String code = t.code();
-        Optional<String> maybeName = t.name();
-        String fullId = t.fullIdentification();
+        assertEquals("R 864", code);
 
-        System.out.println("code: " + code + ", name: " + maybeName + ", full: " + fullId);
+        Optional<String> maybeName = t.name();
+        assertFalse(maybeName.isPresent());
+
+        String fullId = t.fullIdentification();
+        assertEquals("R 864", fullId);
     }
 
     @Test
     public void findsNothing() throws TransportRetrievalException {
         Collection<Transport> result = transportation.lookupTransport("Blbost");
 
-        Assert.assertTrue(result.isEmpty());
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void findsATrainDirectly() throws TransportRetrievalException {
+        Collection<Transport> result = transportation.lookupTransport("Ex 152");
+        Transport t = result.iterator().next();
+
+        String code = t.code();
+        assertEquals("Ex 152", code);
+
+        Optional<String> maybeName = t.name();
+        assertTrue(maybeName.isPresent());
+
+        assertEquals("Hukvaldy", maybeName.get());
+
+        String fullId = t.fullIdentification();
+        assertEquals("Ex 152 (Hukvaldy)", fullId);
     }
 }
