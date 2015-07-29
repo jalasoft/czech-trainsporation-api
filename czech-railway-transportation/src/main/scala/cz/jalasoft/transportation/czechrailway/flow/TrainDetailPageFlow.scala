@@ -51,10 +51,10 @@ object TrainDetailPageFlow {
  */
 final class TrainDetailPageFlow private (train : String, client : HttpClient) extends Loggable {
 
-  def loadTrainsDetail : Seq[TrainDetailPage] = {
+  def flow : Seq[TrainDetailPage] = {
     debug(s"Starting loading train details for train ${train}")
 
-    loadTrainDetail match {
+    searchTrain match {
       case Success(p: TrainDetailPage) => p :: Nil
       case Success(p: MultipleTrainsPage) => loadMultipleTrainDetails(p)
       case Success(p: NoTrainPage) => Nil
@@ -64,7 +64,7 @@ final class TrainDetailPageFlow private (train : String, client : HttpClient) ex
     }
   }
 
-  private def loadTrainDetail : Try[Page] = {
+  private def searchTrain : Try[Page] = {
     val response = sendLookupRequest(train)
     debug("Loading train detail responded with code " + response.getStatusCode)
 
@@ -84,22 +84,15 @@ final class TrainDetailPageFlow private (train : String, client : HttpClient) ex
     val urls : Seq[(String, String)] = trainsPage.trainsHostsAndPaths
     debug("Starting loading trains details for " + urls.size + " pages")
 
-    val runningLoadings : Seq[Future[Try[TrainDetailPage]]] =
+    val triedPages : Seq[Try[TrainDetailPage]] =
       urls.map({
         case (path, params) => Future { loadTrainDetailPage(path, params)}
-      })
-
-    val triedPages = for(future <- runningLoadings) yield {
-      Await.result(future, Duration.Inf)
-    }
+      }).map(Await.result(_, Duration.Inf))
 
     triedPages collect { case Failure(e) => error("Retrieving of a page detailed ended with an error", e)}
 
-    triedPages filter {
-      case Success(p) if p.isCzechRailwayCompany => true
-      case _ => false
-    } map {
-        case Success(p) => p
+    triedPages collect {
+      case Success(p) if p.isCzechRailwayCompany => p
     }
   }
 

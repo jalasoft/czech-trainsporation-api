@@ -2,13 +2,13 @@ package cz.jalasoft.transportation.czechrailway.page
 
 import java.util.Optional
 
-import cz.jalasoft.transportation.Transport
+import cz.jalasoft.transportation.{Schedule, Transport}
 import cz.jalasoft.util.text.{TextFragment, RegexFragment}
 
 /**
  * Created by honzales on 12.7.15.
  */
-final class TrainDetailPage(fragment : TextFragment) extends Page(fragment) with Transport {
+final class TrainDetailPage(fragment : TextFragment) extends Page(fragment) {
 
   private val TRAIN_NUMBER_SECTION_BEGIN = """<div class="group map">"""
   private val TRAIN_NUMBER_SECTION_END = """Na mapě</a></span>"""
@@ -30,19 +30,18 @@ final class TrainDetailPage(fragment : TextFragment) extends Page(fragment) with
     checkCzechRailwayCarrierPresence
   }
 
-  override def fullIdentification(): String = trainNumberFragment.getGroupTextFragment(0).text()
+  def trainFullName(): String = trainNumberFragment.getGroupTextFragment(0).text()
 
-  override def name(): Optional[String] = {
-    val name = trainNumberFragment.getGroupTextFragment(2).text
+  def trainName(): Optional[String] = {
+    val name = trainNumberFragment.getGroupTextFragment(3).text
     name match {
       case null => Optional.empty()
       case someName => Optional.of(someName)
     }
   }
 
-  override def code(): String = trainNumberFragment.getGroupTextFragment(1).text
+  def trainCode(): String = trainNumberFragment.getGroupTextFragment(1).text
 
-  override def carrierName(): String = ???
-
+  def providerName(): String = "České dráhy, a.s."
 
 }
