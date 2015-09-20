@@ -1,4 +1,8 @@
-package cz.jalasoft.transportation;
+package cz.jalasoft.transportation.introspection;
+
+import cz.jalasoft.transportation.Carrier;
+import cz.jalasoft.transportation.Transportation;
+import cz.jalasoft.transportation.introspection.ClassPathIntrospection;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -7,9 +11,9 @@ import java.util.Map;
 /**
  * Created by honzales on 27.6.15.
  */
-final class TransportationLoader {
+public final class TransportationLoader {
 
-    static Map<Carrier, Transportation> loadTransporations() {
+    public static Map<Carrier, Transportation> loadTransporations() {
         Iterable<Class<Transportation>> classes = introspectClassPath();
         return load(classes);
     }

@@ -1,6 +1,8 @@
-package cz.jalasoft.transportation;
+package cz.jalasoft.transportation.introspection;
 
 import com.google.common.reflect.ClassPath;
+import cz.jalasoft.transportation.Transport;
+import cz.jalasoft.transportation.Transportation;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -12,7 +14,7 @@ import java.util.Set;
  */
 final class ClassPathIntrospection {
 
-    private static final String DEFAULT_PACKAGE_NAME = ClassPathIntrospection.class.getPackage().getName();
+    private static final String DEFAULT_PACKAGE_NAME = Transport.class.getPackage().getName();
     private static final String SYSTEM_PROPERTY_PACKAGE_KEY = "transport.package";
 
     private static final String CUSTOM_TRANSPORTATION_CLASS_SUFFIX = "Transportation";

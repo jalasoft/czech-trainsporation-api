@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 
-import static cz.jalasoft.transportation.TransportationLoader.loadTransporations;
+import static cz.jalasoft.transportation.introspection.TransportationLoader.loadTransporations;
 import static cz.jalasoft.util.ArgumentAssertion.mustNotBeNull;
 import static cz.jalasoft.util.ArgumentAssertion.mustNotBeNullOrEmpty;
 
@@ -15,7 +15,7 @@ public final class Transportations {
 
     private static Map<Carrier, Transportation> transportations = loadTransporations();
 
-    public static Carrier lookupCarrier(String carrierName) {
+    public static Carrier findCarrier(String carrierName) {
         mustNotBeNullOrEmpty(carrierName, "Name of carrier");
 
         for(Carrier carrier : transportations.keySet()) {
@@ -27,7 +27,7 @@ public final class Transportations {
         throw new IllegalArgumentException("Unknown carrier name '" + carrierName + "'.");
     }
 
-    public static Transportation transportation(Carrier carrier) {
+    public static Transportation forCarrier(Carrier carrier) {
         mustNotBeNull(carrier, "Carrier");
 
         Transportation result = transportations.get(carrier);

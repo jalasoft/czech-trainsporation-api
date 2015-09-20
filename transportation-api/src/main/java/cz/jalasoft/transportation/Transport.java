@@ -11,48 +11,43 @@ import static cz.jalasoft.util.ArgumentAssertion.mustNotBeNullOrEmpty;
  */
 public final class Transport {
 
-    private static final Pattern TRANSPORT_DESCRIPTOR_PATTERN = Pattern.compile("Transport\\[(.+)\\]\\[((.+) (\\((.*)\\))?)\\]");
+    private static final String TO_STRING_PATTERN = "Transport[%s][%s %s]";
 
     public static Builder newTransport() {
         return new Builder();
     }
 
-    public static Transport fromString(String descriptor) {
-        mustNotBeNullOrEmpty(descriptor, "Transport description");
 
-        return new Transport(descriptor);
+    private final String carrier;
+    private final String code;
+    private final Optional<String> maybeName;
+
+    private Transport(Builder builder) {
+        this.carrier = builder.carrier;
+        this.code = builder.code;
+        this.maybeName = builder.maybeName;
     }
 
-    private Transport(String descriptor) {
-        Matcher matcher = TRANSPORT_DESCRIPTOR_PATTERN.matcher(descriptor);
-        if (!matcher.matches()) {
-            throw new IllegalArgumentException("Input '" + descriptor + "' does not match expected pattern");
-        }
-        this.matcher = matcher;
-    }
-
-    private final Matcher matcher;
-
-    public String providerName() {
-        return matcher.group(1);
+    public String carrier() {
+        return carrier;
     }
 
     public String code() {
-        return matcher.group(3);
+        return code;
     }
 
     public Optional<String> name() {
-        String maybeName = matcher.group(4);
-        return Optional.ofNullable(maybeName);
+        return maybeName;
     };
 
     public String fullName() {
-        return matcher.group(2);
+        return code + " " + name().orElse("");
     }
 
     @Override
     public String toString() {
-        return matcher.group();
+        String name = name().isPresent() ? ("(" + name().get() + ")") : "";
+        return String.format(TO_STRING_PATTERN, carrier, code(), name);
     }
 
     @Override
@@ -84,51 +79,50 @@ public final class Transport {
 
     public static final class Builder {
 
-        String providerName;
-        String transportCode;
-        String transportName;
+        private static final Pattern TRANSPORT_DESCRIPTOR_PATTERN = Pattern.compile("Transport\\[(.+)\\]\\[((.+) (\\((.*)\\))?)\\]");
+
+        public static Transport fromString(String descriptor) {
+            mustNotBeNullOrEmpty(descriptor, "Transport description");
+
+            Matcher matcher = TRANSPORT_DESCRIPTOR_PATTERN.matcher(descriptor);
+            if (!matcher.matches()) {
+                throw new IllegalArgumentException("Input '" + descriptor + "' does not match expected pattern");
+            }
+
+            return new Builder()
+                    .carrier(matcher.group(1))
+                    .name(matcher.group(4))
+                    .code(matcher.group(3))
+                    .get();
+        }
+
+        String carrier;
+        String code;
+        Optional<String> maybeName;
 
         private Builder() {}
 
-        public Builder providedBy(String provider) {
+        public Builder carrier(String provider) {
             mustNotBeNullOrEmpty(provider, "Provider");
 
-            this.providerName = provider;
+            this.carrier = carrier;
             return this;
         }
 
-        public Builder withCode(String code) {
+        public Builder code(String code) {
             mustNotBeNullOrEmpty(code, "Transport code");
 
-            this.transportCode = code;
+            this.code = code;
             return this;
         }
 
-        public Builder named(String name) {
-            this.transportName = name;
+        public Builder name(String name) {
+            this.maybeName = Optional.ofNullable(name);
             return this;
         }
 
         public Transport get() {
-            StringBuilder bldr =
-                    new StringBuilder("Transport[")
-                            .append(providerName)
-                            .append("][")
-                            .append(transportCode)
-                            .append(" ");
-
-            if (transportName != null) {
-                bldr
-                        .append("(")
-                        .append(transportName)
-                        .append(")");
-            }
-
-            String descriptor = bldr
-                    .append("]")
-                    .toString();
-
-            return new Transport(descriptor);
+            return new Transport(this);
         }
     }
 }

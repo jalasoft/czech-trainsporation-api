@@ -10,7 +10,7 @@ import java.util.Collection;
  */
 public interface Transportation {
 
-    Collection<Transport> lookupTransport(String transport) throws TransportRetrievalException;
+    Collection<Transport> findTransport(String transportCodeOrName) throws TransportRetrievalException;
 
     Schedule querySchedule(Transport transport) throws TransportInfoRetrievalException;
 
