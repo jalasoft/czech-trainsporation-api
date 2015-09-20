@@ -33,7 +33,7 @@ class CzechRailwayTransportation extends Transportation with Loggable {
     val client = new NettyHttpClient
 
     try {
-      TrainDetailPageFlow(transport, client).flow map trainPageToTransport
+      TrainDetailPageFlow(client) flow(transport) map trainPageToTransport
     } finally {
       client.close()
     }
@@ -44,24 +44,26 @@ class CzechRailwayTransportation extends Transportation with Loggable {
 
     debug("Schedule is being queried for transport {}.", transport)
 
-    /*transport match {
-      case t : TrainDetailPage => t
-      case _ => {
-        val details = lookupTransport(transport fullIdentification())
-        if (details.size != 0) {
-          val message = "Unexpected number of train detail pages (" + details.size + ") for train " + transport + "."
-          throw new TransportInfoRetrievalException(transport, message)
-        }
-        details.iterator.next
-      }
-    }*/
+    val client = new NettyHttpClient
+
+    try {
+      val page = (TrainDetailPageFlow(client) flow(transport))
+      val schedule = page.schedule()
+
+      schedule.
+
+    } finally {
+      client.close()
+    }
     null
   }
 
-  override def carrier(): Carrier = CzechRailwayCarrier
 
   override def queryPosition(transport: Transport): Position = {
     debug("Position is being queried for transport " + transport)
     null
   }
+
+  override def carrier(): Carrier = CzechRailwayCarrier
+
 }

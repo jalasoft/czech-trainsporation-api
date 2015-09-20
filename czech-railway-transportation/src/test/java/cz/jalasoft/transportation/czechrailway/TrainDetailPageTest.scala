@@ -24,4 +24,8 @@ class TrainDetailPageTest {
     Assert.assertEquals("R 844 ", number)
   }
 
+  @Test
+  def pokus = {
+    page.
+  }
 }

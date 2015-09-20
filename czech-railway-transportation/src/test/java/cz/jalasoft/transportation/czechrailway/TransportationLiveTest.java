@@ -1,5 +1,6 @@
 package cz.jalasoft.transportation.czechrailway;
 
+import cz.jalasoft.transportation.Schedule;
 import cz.jalasoft.transportation.Transport;
 import cz.jalasoft.transportation.Transportation;
 import cz.jalasoft.transportation.exception.TransportRetrievalException;
@@ -65,5 +66,14 @@ public class TransportationLiveTest {
 
         String fullId = t.fullName();
         assertEquals("Ex 152 (Hukvaldy)", fullId);*/
+    }
+
+    @Test
+    public void test() throws Exception {
+        Collection<Transport> result = transportation.lookupTransport("Ex 152");
+        Transport t = result.iterator().next();
+
+        Schedule s = transportation.querySchedule(t);
+
     }
 }

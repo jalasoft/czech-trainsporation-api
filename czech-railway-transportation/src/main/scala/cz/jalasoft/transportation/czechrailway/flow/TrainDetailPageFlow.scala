@@ -6,10 +6,11 @@ import java.util.Date
 
 import cz.jalasoft.net.http.HttpClient
 import cz.jalasoft.net.http.URIBuilder._
+import cz.jalasoft.transportation.Transport
 import cz.jalasoft.transportation.czechrailway.ConnectionProperties._
 import cz.jalasoft.transportation.czechrailway.Loggable
 import cz.jalasoft.transportation.czechrailway.page._
-import cz.jalasoft.transportation.exception.TransportRetrievalException
+import cz.jalasoft.transportation.exception.{TransportInfoRetrievalException, TransportRetrievalException}
 
 import scala.collection._
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -43,28 +44,42 @@ object TrainDetailPageFlow {
     s"Mask=${train}&form-date=${formattedDate}&cmdSearch=Vyhledat"
   }
 
-  def apply(train : String, client : HttpClient) = new TrainDetailPageFlow(train, client)
+  def apply(client : HttpClient) = new TrainDetailPageFlow(client)
+
 }
 
 /**
  * Created by Honza Lastovicka on 11.7.15.
  */
-final class TrainDetailPageFlow private (train : String, client : HttpClient) extends Loggable {
+final class TrainDetailPageFlow private (client : HttpClient) extends Loggable {
 
-  def flow : Seq[TrainDetailPage] = {
+  def flow(train : Transport) : TrainDetailPage = {
+    debug(s"Startin loading train detail page for train ${train.fullName()}")
+
+    val singletonSeq = flow(train.fullName())
+
+    if (singletonSeq.size != 1) {
+      val message = "Unexpected number of train detail pages: " + singletonSeq.size + ", expected 1"
+      throw new TransportInfoRetrievalException(train, message)
+    }
+
+    singletonSeq head
+  }
+
+  def flow(train : String) : Seq[TrainDetailPage] = {
     debug(s"Starting loading train details for train ${train}")
 
-    searchTrain match {
-      case Success(p: TrainDetailPage) => p :: Nil
-      case Success(p: MultipleTrainsPage) => loadMultipleTrainDetails(p)
-      case Success(p: NoTrainPage) => Nil
+    searchTrain(train) match {
+      case Success(p: TrainDetailPage) => Seq(p)
+      case Success(p: MultipleTrainsPage) => loadMultipleTrainDetails(train, p)
+      case Success(p: NoTrainPage) => Seq()
       case Success(p: UnknownPage) => throw new TransportRetrievalException(train, "Unknown page")
       case Failure(e : Exception) => throw new TransportRetrievalException(train, e)
       case Failure(e) => throw e
     }
   }
 
-  private def searchTrain : Try[Page] = {
+  private def searchTrain(train : String) : Try[Page] = {
     val response = sendLookupRequest(train)
     debug("Loading train detail responded with code " + response.getStatusCode)
 
@@ -80,13 +95,13 @@ final class TrainDetailPageFlow private (train : String, client : HttpClient) ex
     .withFormParametersPayload(TrainDetailPageFlow.lookupTrainRequestBody(train))
     .send
 
-  private def loadMultipleTrainDetails(trainsPage : MultipleTrainsPage) : Seq[TrainDetailPage] = {
+  private def loadMultipleTrainDetails(train : String, trainsPage : MultipleTrainsPage) : Seq[TrainDetailPage] = {
     val urls : Seq[(String, String)] = trainsPage.trainsHostsAndPaths
     debug("Starting loading trains details for " + urls.size + " pages")
 
     val triedPages : Seq[Try[TrainDetailPage]] =
       urls.map({
-        case (path, params) => Future { loadTrainDetailPage(path, params)}
+        case (path, params) => Future { loadTrainDetailPage(train, path, params)}
       }).map(Await.result(_, Duration.Inf))
 
     triedPages collect { case Failure(e) => error("Retrieving of a page detailed ended with an error", e)}
@@ -96,7 +111,7 @@ final class TrainDetailPageFlow private (train : String, client : HttpClient) ex
     }
   }
 
-  private def loadTrainDetailPage(path: String, params : String) : Try[TrainDetailPage] = {
+  private def loadTrainDetailPage(train : String, path: String, params : String) : Try[TrainDetailPage] = {
 
       debug("Starting loading trains detail page for url params " + params)
 
