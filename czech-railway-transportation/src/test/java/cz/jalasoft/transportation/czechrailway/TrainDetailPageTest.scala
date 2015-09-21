@@ -1,7 +1,8 @@
 package cz.jalasoft.transportation.czechrailway
 
 import cz.jalasoft.transportation.czechrailway.page.{TrainDetailPage, Page}
-import org.junit.{Assert, Test, Before}
+import org.testng.Assert
+import org.testng.annotations.{BeforeTest, Test}
 
 import scala.io.Source
 
@@ -10,7 +11,7 @@ import scala.io.Source
  */
 class TrainDetailPageTest {
 
-  @Before
+  @BeforeTest
   private val page = {
     val text = Source.fromInputStream(ClassLoader.getSystemResourceAsStream("train_detail_page.txt")).mkString
     Page(text) match {
@@ -22,10 +23,5 @@ class TrainDetailPageTest {
   def getsExpectedTrainNumber = {
     val number = page.trainCode()
     Assert.assertEquals("R 844 ", number)
-  }
-
-  @Test
-  def pokus = {
-    page.
   }
 }

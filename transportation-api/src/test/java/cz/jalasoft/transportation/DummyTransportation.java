@@ -11,7 +11,7 @@ import java.util.Collection;
 public class DummyTransportation implements Transportation {
 
     @Override
-    public Collection<Transport> lookupTransport(String transport) throws TransportRetrievalException {
+    public Collection<Transport> findTransport(String transport) throws TransportRetrievalException {
         return null;
     }
 

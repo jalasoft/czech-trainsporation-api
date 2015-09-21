@@ -11,12 +11,11 @@ import static cz.jalasoft.util.ArgumentAssertion.mustNotBeNullOrEmpty;
  */
 public final class Transport {
 
-    private static final String TO_STRING_PATTERN = "Transport[%s][%s %s]";
+    private static final String TO_STRING_PATTERN = "Transport[%s][%s][%s]";
 
     public static Builder newTransport() {
         return new Builder();
     }
-
 
     private final String carrier;
     private final String code;
@@ -46,8 +45,7 @@ public final class Transport {
 
     @Override
     public String toString() {
-        String name = name().isPresent() ? ("(" + name().get() + ")") : "";
-        return String.format(TO_STRING_PATTERN, carrier, code(), name);
+        return String.format(TO_STRING_PATTERN, carrier, code(), name().orElse(""));
     }
 
     @Override
@@ -79,7 +77,7 @@ public final class Transport {
 
     public static final class Builder {
 
-        private static final Pattern TRANSPORT_DESCRIPTOR_PATTERN = Pattern.compile("Transport\\[(.+)\\]\\[((.+) (\\((.*)\\))?)\\]");
+        private static final Pattern TRANSPORT_DESCRIPTOR_PATTERN = Pattern.compile("Transport\\[(.+)\\]\\[(.+)\\]\\[(.*)\\]");
 
         public static Transport fromString(String descriptor) {
             mustNotBeNullOrEmpty(descriptor, "Transport description");
@@ -91,19 +89,19 @@ public final class Transport {
 
             return new Builder()
                     .carrier(matcher.group(1))
-                    .name(matcher.group(4))
-                    .code(matcher.group(3))
+                    .code(matcher.group(2))
+                    .name(matcher.group(3))
                     .get();
         }
 
         String carrier;
         String code;
-        Optional<String> maybeName;
+        Optional<String> maybeName = Optional.empty();
 
         private Builder() {}
 
-        public Builder carrier(String provider) {
-            mustNotBeNullOrEmpty(provider, "Provider");
+        public Builder carrier(String carrier) {
+            mustNotBeNullOrEmpty(carrier, "Provider");
 
             this.carrier = carrier;
             return this;

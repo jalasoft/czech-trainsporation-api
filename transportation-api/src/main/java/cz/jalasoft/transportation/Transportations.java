@@ -3,6 +3,7 @@ package cz.jalasoft.transportation;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 
 import static cz.jalasoft.transportation.introspection.TransportationLoader.loadTransporations;
 import static cz.jalasoft.util.ArgumentAssertion.mustNotBeNull;
@@ -18,13 +19,12 @@ public final class Transportations {
     public static Carrier findCarrier(String carrierName) {
         mustNotBeNullOrEmpty(carrierName, "Name of carrier");
 
-        for(Carrier carrier : transportations.keySet()) {
-            if (carrierName.equals(carrier.name())) {
-                return carrier;
-            }
-        }
+        Optional<Carrier> maybeCarrier = transportations.keySet().stream().filter(c -> c.name().equals(carrierName)).findFirst();
 
-        throw new IllegalArgumentException("Unknown carrier name '" + carrierName + "'.");
+        if (!maybeCarrier.isPresent()) {
+            throw new IllegalArgumentException("Unknown carrier name '" + carrierName + "'.");
+        }
+        return maybeCarrier.get();
     }
 
     public static Transportation forCarrier(Carrier carrier) {

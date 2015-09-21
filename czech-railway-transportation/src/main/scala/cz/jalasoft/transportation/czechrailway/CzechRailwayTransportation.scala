@@ -18,14 +18,14 @@ class CzechRailwayTransportation extends Transportation with Loggable {
     p => {
       Transport
         .newTransport
-        .providedBy(p.providerName)
-        .withCode(p.trainCode)
-        .named(p.trainName.orElse(null))
+        .carrier(p.providerName)
+        .code(p.trainCode)
+        .name(p.trainName.orElse(null))
         .get()
     }
   }
 
-  override def lookupTransport(transport: String): java.util.Collection[Transport] = {
+  override def findTransport(transport: String): java.util.Collection[Transport] = {
     require(transport != null && !transport.isEmpty, "Train name must not be null or empty")
 
     debug("Transport is being looked up for " + transport)
@@ -49,8 +49,6 @@ class CzechRailwayTransportation extends Transportation with Loggable {
     try {
       val page = (TrainDetailPageFlow(client) flow(transport))
       val schedule = page.schedule()
-
-      schedule.
 
     } finally {
       client.close()

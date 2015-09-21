@@ -4,13 +4,10 @@ import cz.jalasoft.transportation.Schedule;
 import cz.jalasoft.transportation.Transport;
 import cz.jalasoft.transportation.Transportation;
 import cz.jalasoft.transportation.exception.TransportRetrievalException;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import java.util.Collection;
-import java.util.Optional;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by honzales on 30.6.15.
@@ -19,14 +16,14 @@ public class TransportationLiveTest {
 
     private Transportation transportation;
 
-    @Before
+    @BeforeTest
     public void init() {
         transportation = new CzechRailwayTransportation();
     }
 
     @Test
     public void findsATrainViaMultipleTrainsPage() throws TransportRetrievalException {
-        Collection<Transport> result = transportation.lookupTransport("864");
+        Collection<Transport> result = transportation.findTransport("R865");
         Transport t = result.iterator().next();
 
         /*String code = t.code();
@@ -43,14 +40,14 @@ public class TransportationLiveTest {
 
     @Test
     public void findsNothing() throws TransportRetrievalException {
-        Collection<Transport> result = transportation.lookupTransport("Blbost");
+        Collection<Transport> result = transportation.findTransport("Těsnohlídek");
 
-        assertTrue(result.isEmpty());
+        throw new AssertionError();
     }
 
     @Test
     public void findsATrainDirectly() throws TransportRetrievalException {
-        Collection<Transport> result = transportation.lookupTransport("Ex 152");
+        Collection<Transport> result = transportation.findTransport("Ex 152");
         Transport t = result.iterator().next();
 
         System.out.println(t);
@@ -70,7 +67,7 @@ public class TransportationLiveTest {
 
     @Test
     public void test() throws Exception {
-        Collection<Transport> result = transportation.lookupTransport("Ex 152");
+        Collection<Transport> result = transportation.findTransport("Ex 152");
         Transport t = result.iterator().next();
 
         Schedule s = transportation.querySchedule(t);
