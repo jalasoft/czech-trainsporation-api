@@ -9,10 +9,37 @@
     <packaging>pom</packaging>
     <version>1.0.0</version>
 
+    <name>CzechTrainsportationAPIParent</name>
+
     <modules>
         <module>czech-railway-transportation</module>
         <module>transportation-api</module>
     </modules>
+
+    <url>https://github.com/jalasoft/czech-trainsporation-api</url>
+    <description>Parent POM of JalaSoft library that provides API for retrieving online information about trains.</description>
+
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/jalasoft/czech-trainsporation-api</url>
+        <connection>scm:git:git@github.com:jalasoft/czech-trainsporation-api.git</connection>
+        <developerConnection>scm:git:git@github.com:jalasoft/czech-trainsporation-api.git</developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <email>jala.software@seznam.cz</email>
+            <name>Jan Lastovicka</name>
+            <url>https://github.com/jalasoft</url>
+            <id>lastovicka</id>
+        </developer>
+    </developers>
 
     <dependencies>
         <dependency>
@@ -38,6 +65,31 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.3</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.3</version>
@@ -45,6 +97,31 @@
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions><execution>
+                    <id>attach-sources</id>
+                    <goals>
+                        <goal>jar-no-fork</goal>
+                    </goals>
+                </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

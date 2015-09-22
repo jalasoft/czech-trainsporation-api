@@ -1,10 +1,12 @@
 package cz.jalasoft.transportation;
 
 
-import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
 import java.util.Collection;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 
 /**
@@ -12,13 +14,13 @@ import java.util.Collection;
  */
 public class TransportationsTest {
 
-    @Test
+    @Test(enabled = false)
     public void loadsDummyTrasnportationThatLiesOnClasspath() {
         Collection<Carrier> carriers = Transportations.availableCarriers();
         assertEquals(carriers.size(), 1);
     }
 
-    @Test
+    @Test(enabled = false)
     public void looksUpCarrierByItsName() {
         Carrier carrier = Transportations.findCarrier("Dummy Transportation");
 
@@ -26,7 +28,7 @@ public class TransportationsTest {
         assertEquals(carrier.name(), "Dummy Transportation");
     }
 
-    @Test
+    @Test(enabled = false)
     public void getsNotNullTrasnportationForDummyCarrier() {
         Carrier carrier = Transportations.findCarrier("Dummy Transportation");
         Transportation tr = Transportations.forCarrier(carrier);
