@@ -6,8 +6,8 @@
 
     <parent>
         <artifactId>transportation</artifactId>
-        <groupId>cz.jalasoft.transportation</groupId>
-        <version>1.0.0</version>
+        <groupId>com.github.jalasoft</groupId>
+        <version>1.0.1</version>
     </parent>
 
     <artifactId>czech-railway-transportation</artifactId>
@@ -39,7 +39,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>cz.jalasoft.transportation</groupId>
+            <groupId>com.github.jalasoft</groupId>
             <artifactId>transportation-api</artifactId>
             <version>${project.version}</version>
         </dependency>

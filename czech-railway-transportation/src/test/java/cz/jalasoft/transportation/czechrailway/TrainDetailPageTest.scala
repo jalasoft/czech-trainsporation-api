@@ -8,6 +8,7 @@ import scala.io.Source
 
 /**
  * Created by honzales on 20.7.15.
+ *
  */
 class TrainDetailPageTest {
 
@@ -19,7 +20,7 @@ class TrainDetailPageTest {
     }
   }
 
-  @Test
+  @Test(enabled = false)
   def getsExpectedTrainNumber = {
     val number = page.trainCode()
     Assert.assertEquals("R 844 ", number)

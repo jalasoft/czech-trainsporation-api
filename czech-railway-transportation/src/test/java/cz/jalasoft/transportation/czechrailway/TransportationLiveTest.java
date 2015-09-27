@@ -21,7 +21,7 @@ public class TransportationLiveTest {
         transportation = new CzechRailwayTransportation();
     }
 
-    @Test
+    @Test(enabled = false)
     public void findsATrainViaMultipleTrainsPage() throws TransportRetrievalException {
         Collection<Transport> result = transportation.findTransport("R865");
         Transport t = result.iterator().next();
@@ -38,14 +38,14 @@ public class TransportationLiveTest {
         System.out.println(t);
     }
 
-    @Test
+    @Test(enabled = false)
     public void findsNothing() throws TransportRetrievalException {
         Collection<Transport> result = transportation.findTransport("Těsnohlídek");
 
         throw new AssertionError();
     }
 
-    @Test
+    @Test(enabled = false)
     public void findsATrainDirectly() throws TransportRetrievalException {
         Collection<Transport> result = transportation.findTransport("Ex 152");
         Transport t = result.iterator().next();
@@ -65,7 +65,7 @@ public class TransportationLiveTest {
         assertEquals("Ex 152 (Hukvaldy)", fullId);*/
     }
 
-    @Test
+    @Test(enabled = false)
     public void test() throws Exception {
         Collection<Transport> result = transportation.findTransport("Ex 152");
         Transport t = result.iterator().next();
