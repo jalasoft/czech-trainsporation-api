@@ -14,6 +14,7 @@
     <modules>
         <module>czech-railway-transportation</module>
         <module>transportation-api</module>
+        <module>czech-railway-webdriver-trainsporation-api</module>
     </modules>
 
     <url>https://github.com/jalasoft/czech-trainsporation-api</url>
