@@ -27,7 +27,7 @@ enum TrainSearchResultType {
         SEVERAL_FOUND(By.xpath("//div[.='Nalezené vlaky']")) {
             @Override
             TrainSearchResult page(WebDriver driver) {
-                return new TrainsPage();
+                return new TrainsPage(driver);
             }
         };
 

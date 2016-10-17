@@ -4,7 +4,8 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static cz.jalasoft.util.ArgumentAssertion.mustNotBeNullOrEmpty;
+import static cz.jalasoft.lifeconfig.util.ArgumentAssertion.mustNotBeNullOrEmpty;
+
 
 /**
  * Created by honzales on 16.5.15.

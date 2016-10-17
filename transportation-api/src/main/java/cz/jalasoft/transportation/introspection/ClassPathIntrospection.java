@@ -1,6 +1,5 @@
 package cz.jalasoft.transportation.introspection;
 
-import com.google.common.reflect.ClassPath;
 import cz.jalasoft.transportation.Transport;
 import cz.jalasoft.transportation.Transportation;
 
@@ -14,6 +13,7 @@ import java.util.Set;
  */
 final class ClassPathIntrospection {
 
+    /*
     private static final String DEFAULT_PACKAGE_NAME = Transport.class.getPackage().getName();
     private static final String SYSTEM_PROPERTY_PACKAGE_KEY = "transport.package";
 
@@ -59,7 +59,7 @@ final class ClassPathIntrospection {
 
         for(ClassPath.ClassInfo classInfo : classInfos) {
             if (isTransportationClass(classInfo)) {
-                Class<?> clazz = classInfo.load();
+                Class<?> clazz = classInfo.findTrain();
                 result.add(clazz);
             }
         }
@@ -84,5 +84,5 @@ final class ClassPathIntrospection {
         }
 
         return result;
-    }
+    }*/
 }

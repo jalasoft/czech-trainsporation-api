@@ -1,10 +1,11 @@
-package cz.jalasoft.transportation;
+package cz.jalasoft.transportation.alternative;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 
 /**
- * Created by honzales on 3.5.15.
+ * @author Honza Lastovicka (lastovicka@avast.com)
+ * @since 2016-07-25.
  */
 public final class Position {
 

@@ -16,6 +16,8 @@ import java.util.Collections;
  */
 public class CzechRailwayWebdriverTransportation implements Transportation {
 
+    static final Carrier CARRIER = () -> "České dráhy, a.s.";
+
     private final Configuration config;
     private final WebDriver driver;
 
@@ -34,12 +36,12 @@ public class CzechRailwayWebdriverTransportation implements Transportation {
             case NOT_FOUND:
                 return Collections.emptyList();
             case ONE_FOUND:
-                String name =  ((TrainDetailPage) result).trainName();
-                //Transport transport = Transport.newTransport().fromString(name);
-                System.out.println(name);
-                return null;//Arrays.asList(transport);
+                Transport transport =  ((TrainDetailPage) result).train();
+                boolean b = ((TrainDetailPage) result).belongsToCarrier(CARRIER.name());
+
+                return Arrays.asList(transport);
              case SEVERAL_FOUND:
-                //TODO
+                 ((TrainsPage) result).readDetails();
                 return null;
 
             default:
@@ -62,6 +64,6 @@ public class CzechRailwayWebdriverTransportation implements Transportation {
 
     @Override
     public Carrier carrier() {
-        return () -> "Czech Railway Company By Webdriver";
+        return CARRIER;
     }
 }

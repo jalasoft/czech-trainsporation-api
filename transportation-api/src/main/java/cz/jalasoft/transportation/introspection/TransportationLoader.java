@@ -19,11 +19,11 @@ public final class TransportationLoader {
     }
 
     private static Iterable<Class<Transportation>> introspectClassPath() {
-        try {
-            return ClassPathIntrospection.introspect();
-        } catch (IOException exc) {
-            throw new RuntimeException("An error occurred during introspecting a classpath.", exc);
-        }
+        //try {
+            return null; //ClassPathIntrospection.introspect();
+        //} catch (IOException exc) {
+        //    throw new RuntimeException("An error occurred during introspecting a classpath.", exc);
+        //}
     }
 
     private static Map<Carrier, Transportation> load(Iterable<Class<Transportation>> transportationClasses) {

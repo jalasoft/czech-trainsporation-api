@@ -1,6 +1,7 @@
 package cz.jalasoft.transportation;
 
-import static cz.jalasoft.util.ArgumentAssertion.*;
+import static cz.jalasoft.lifeconfig.util.ArgumentAssertion.mustNotBeNull;
+import static cz.jalasoft.lifeconfig.util.ArgumentAssertion.mustNotBeNullOrEmpty;
 
 import java.time.LocalTime;
 

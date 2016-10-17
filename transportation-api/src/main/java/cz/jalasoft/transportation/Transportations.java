@@ -5,9 +5,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 
+import static cz.jalasoft.lifeconfig.util.ArgumentAssertion.mustNotBeNull;
+import static cz.jalasoft.lifeconfig.util.ArgumentAssertion.mustNotBeNullOrEmpty;
 import static cz.jalasoft.transportation.introspection.TransportationLoader.loadTransporations;
-import static cz.jalasoft.util.ArgumentAssertion.mustNotBeNull;
-import static cz.jalasoft.util.ArgumentAssertion.mustNotBeNullOrEmpty;
 
 /**
  * Created by Honza Lastovicka on 27.6.15.
