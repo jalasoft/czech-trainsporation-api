@@ -1,7 +1,7 @@
-package cz.jalasoft.transportation.alternative.czechrailway.factory.text;
+package cz.jalasoft.transportation.alternative.czechrailway.page.text;
 
-import cz.jalasoft.transportation.alternative.czechrailway.factory.text.converter.Converter;
-import cz.jalasoft.transportation.alternative.czechrailway.factory.text.converter.ConverterException;
+import cz.jalasoft.transportation.alternative.czechrailway.page.text.converter.Converter;
+import cz.jalasoft.transportation.alternative.czechrailway.page.text.converter.ConverterException;
 
 /**
  * Created by honzales on 9.6.15.

@@ -4,6 +4,7 @@ import cz.jalasoft.transportation.alternative.czechrailway.CzechRailwayTransport
 import cz.jalasoft.transportation.alternative.czechrailway.Train;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
 import java.util.Collection;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Collection;
 public class DesignTest {
 
     @Test
-    public void test() throws TransportLookupException {
+    public void test() throws IOException, TransportLookupException {
 
         Transportation<Train> transportation = CzechRailwayTransportation.czechRailways();
 

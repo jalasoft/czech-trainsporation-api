@@ -1,4 +1,4 @@
-package cz.jalasoft.transportation.alternative.czechrailway.factory.text;
+package cz.jalasoft.transportation.alternative.czechrailway.page.text;
 
 import java.util.ArrayList;
 import java.util.List;

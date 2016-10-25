@@ -2,17 +2,19 @@ package cz.jalasoft.transportation.alternative.czechrailway;
 
 import cz.jalasoft.lifeconfig.LifeConfig;
 import cz.jalasoft.transportation.alternative.Position;
-import cz.jalasoft.transportation.alternative.TransportLookupException;
 import cz.jalasoft.transportation.alternative.Transportation;
-import cz.jalasoft.transportation.alternative.czechrailway.content.ApacheHttpClientContentProvider;
-import cz.jalasoft.transportation.alternative.czechrailway.content.PageContent;
-import cz.jalasoft.transportation.alternative.czechrailway.content.ContentProvider;
-import cz.jalasoft.transportation.alternative.czechrailway.factory.TrainFactory;
+import cz.jalasoft.transportation.alternative.czechrailway.page.PageFlow;
+import cz.jalasoft.transportation.alternative.czechrailway.page.TrainDetailPage;
+import cz.jalasoft.transportation.alternative.czechrailway.page.TrainListPage;
+import cz.jalasoft.transportation.alternative.czechrailway.page.loader.ApacheHttpPageLoader;
+import cz.jalasoft.transportation.alternative.czechrailway.page.loader.PageLoader;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Optional;
 
 /**
  * @author Honza Lastovicka (lastovicka@avast.com)
@@ -27,44 +29,43 @@ public final class CzechRailwayTransportation implements Transportation<Train> {
                 .fromClasspath("reference.conf")
                 .load();
 
-        return new CzechRailwayTransportation(config.uriString(), ApacheHttpClientContentProvider.defaultHttpClient());
+        return new CzechRailwayTransportation(ApacheHttpPageLoader.defaultHttpClient(), config);
     }
 
     //----------------------------------------------------------------
     //INSTANCE SCOPE
     //----------------------------------------------------------------
 
-    private final String uri;
-    private final ContentProvider contentProvider;
-    private final TrainFactory trainFactory;
+    private final TrainLookupConfig config;
+    private final PageFlow flow;
 
-    private CzechRailwayTransportation(String uri, ContentProvider contetProvider) {
-        this.uri = uri;
-        this.contentProvider = contetProvider;
-        this.trainFactory = new TrainFactory();
+    private CzechRailwayTransportation(PageLoader loader, TrainLookupConfig config) {
+        this.config = config;
+        this.flow = new PageFlow(loader, config);
     }
 
     @Override
-    public Collection<Train> lookup(String codeOrName) throws TransportLookupException {
-        PageContent pageContent = loadPage(codeOrName);
-        Collection<Train> trains = trainFactory.createTrain(pageContent);
-        return trains;
+    public Collection<Train> lookup(String codeOrName) throws IOException, ContentNotFoundException {
+        if (codeOrName == null || codeOrName.isEmpty()) {
+            throw new IllegalArgumentException("Code or name of a train must not be null or empty.");
+        }
 
+        TrainListPage trainList = flow.getTrainListPage(codeOrName);
+        Collection<TrainDetailPage> trainDetails = flow.toTrainDetailPage(trainList);
+
+        Collection<Train> trains = new ArrayList<>(trainDetails.size());
+
+        for(TrainDetailPage page : trainDetails) {
+            trains.add(newTrain(page));
+        }
+        return trains;
     }
 
-    private PageContent loadPage(String codeOrName) throws TransportLookupException {
-        String date = LocalDate.now().format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
+    private Train newTrain(TrainDetailPage page) throws ContentNotFoundException {
 
-        List<ContentProvider.FormParameter> params = new ArrayList<>();
-        params.add(new ContentProvider.FormParameter("Mask", codeOrName));
-        params.add(new ContentProvider.FormParameter("form-date", date));
-        params.add(new ContentProvider.FormParameter("cmdSearch", "Vyhledat"));
+        LocalDateTime recordTime = page.getLastUpdateTime().atDate(LocalDate.now());
 
-        try {
-            return contentProvider.postForm(uri, params);
-        } catch(IOException exc) {
-            throw new ContentNotAvailableException("Could not load page.", exc);
-        }
+        return Train.newTrain().recordedOn(recordTime).get();
     }
 
     @Override
@@ -74,10 +75,10 @@ public final class CzechRailwayTransportation implements Transportation<Train> {
 
     @Override
     public void close() throws IOException {
-        this.contentProvider.close();
+        this.flow.close();
     }
 
-    public static void main(String[] args) throws TransportLookupException {
+    public static void main(String[] args) throws IOException, ContentNotFoundException {
         CzechRailwayTransportation t = CzechRailwayTransportation.czechRailways();
         Collection<Train> trains = t.lookup("Hasek");
 

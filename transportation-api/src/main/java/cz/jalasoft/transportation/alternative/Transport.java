@@ -6,5 +6,5 @@ package cz.jalasoft.transportation.alternative;
  */
 public interface Transport {
 
-    String indetification();
+    String code();
 }

@@ -1,4 +1,4 @@
-package cz.jalasoft.transportation.alternative.czechrailway.factory.text.converter;
+package cz.jalasoft.transportation.alternative.czechrailway.page.text.converter;
 
 /**
  * A functional interface that does a conversion from

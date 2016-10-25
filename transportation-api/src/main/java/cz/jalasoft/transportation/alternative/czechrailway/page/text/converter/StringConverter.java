@@ -1,4 +1,4 @@
-package cz.jalasoft.transportation.alternative.czechrailway.factory.text.converter;
+package cz.jalasoft.transportation.alternative.czechrailway.page.text.converter;
 
 /**
  * Created by honzales on 18.4.15.

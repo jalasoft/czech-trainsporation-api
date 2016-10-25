@@ -1,9 +1,9 @@
-package cz.jalasoft.transportation.alternative.czechrailway.factory.text;
+package cz.jalasoft.transportation.alternative.czechrailway.page.text;
 
 
-import cz.jalasoft.transportation.alternative.czechrailway.factory.text.converter.Converter;
-import cz.jalasoft.transportation.alternative.czechrailway.factory.text.converter.ConverterException;
-import cz.jalasoft.transportation.alternative.czechrailway.factory.text.converter.StringConverter;
+import cz.jalasoft.transportation.alternative.czechrailway.page.text.converter.Converter;
+import cz.jalasoft.transportation.alternative.czechrailway.page.text.converter.ConverterException;
+import cz.jalasoft.transportation.alternative.czechrailway.page.text.converter.StringConverter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
